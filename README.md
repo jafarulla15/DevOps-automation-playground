@@ -1,6 +1,6 @@
 "# DevOps-automation-playground" 
 
-Step 1 — Prepare Ubuntu:
+**Step 1 — Prepare Ubuntu:**
 
 SSH into your Ubuntu VM and run:
 sudo apt update
@@ -144,5 +144,26 @@ network:
 Then:
 ```
 sudo netplan apply
+```
+
+**Step 2 — Install Terraform:**
+
+**Install Terraform**
+On Ubuntu, install the current Terraform package from HashiCorp's official repository.
+HashiCorp Terraform installation documentation : 
+```
+https://developer.hashicorp.com/terraform/install?utm_source=chatgpt.com
+```
+Then verify:
+```
+terraform version
+```
+Also install Git:
+```
+sudo apt install -y git curl wget unzip ca-certificates gnupg
+```
+Verify:
+```
+git --version
 ```
 
