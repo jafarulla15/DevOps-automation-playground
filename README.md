@@ -369,4 +369,18 @@ The hashicorp/null provider supplies that resource type.
 
 Without the provider declaration, Terraform won't know which provider should handle it.
 
+**Step 2.B — Try Terraform Command:**
+```
+terraform init
+      ↓
+terraform validate
+      ↓
+terraform plan
+      ↓
+terraform apply
+      ↓
+verify
+```
+
+
 
