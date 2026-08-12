@@ -258,4 +258,84 @@ terraform.tfvars
 crash.log
 ```
 
+**Knowledge — Terraform version and providers:**
+
+**A. required_providers:**
+```
+required_providers {
+}
+```
+
+This tells Terraform:
+```
+"These are the external providers my Terraform configuration needs."
+```
+A provider is a plugin that allows Terraform to communicate with something.
+
+For example:
+```
+Terraform
+   │
+   ├── AWS Provider ─────── AWS
+   │
+   ├── Azure Provider ───── Azure
+   │
+   ├── Kubernetes Provider ─ Kubernetes
+   │
+   └── Null Provider ────── Local Terraform operations
+```
+
+**B. null = { ... }**
+```
+null = {
+```
+null is the local name you're giving to the provider.
+
+For example, later you can write:
+```
+resource "null_resource" "example" {
+}
+```
+Here:
+```
+null
+ │
+ └── Provider name
+```
+
+**C. source = "hashicorp/null"**
+. source = "hashicorp/null"
+```
+source = "hashicorp/null"
+```
+This tells Terraform exactly where the provider comes from.
+The format is generally:
+```
+registry_namespace/provider_name
+```
+So:
+```
+hashicorp/null
+   │       │
+   │       └── Provider
+   └────────── Organization
+```
+Terraform downloads this provider from the Terraform Registry.
+
+**D. Why use a provider?**
+
+Suppose your Terraform code contains:
+```
+resource "null_resource" "setup" {
+  provisioner "local-exec" {
+    command = "echo Hello"
+  }
+}
+```
+Terraform needs to know what null_resource means.
+
+The hashicorp/null provider supplies that resource type.
+
+Without the provider declaration, Terraform won't know which provider should handle it.
+
 
