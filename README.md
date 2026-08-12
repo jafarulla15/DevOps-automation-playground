@@ -227,7 +227,7 @@ earn-infrastructure/
 └── README.md
 ```
 
-**Step 2.A — Our first Terraform configuration:**
+**Step 3.A — Our first Terraform configuration:**
 Go into:
 ```
 cd terraform/training
@@ -369,7 +369,7 @@ The hashicorp/null provider supplies that resource type.
 
 Without the provider declaration, Terraform won't know which provider should handle it.
 
-**Step 2.B — Try Terraform Command:**
+**Step 3.B — Try Terraform Command:**
 ```
 terraform init
       ↓
