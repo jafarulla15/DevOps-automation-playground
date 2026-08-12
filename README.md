@@ -146,6 +146,37 @@ Then:
 sudo netplan apply
 ```
 
+**Enable SSH server on Ubuntu:** 
+```
+sudo apt update
+sudo apt install openssh-server -y
+sudo systemctl enable --now ssh
+```
+
+**Ensure SSH key exists:** 
+On the machine running Terraform:
+```
+ls -la ~/.ssh/
+```
+You should have:
+```
+id_ed25519
+id_ed25519.pub
+```
+**Easiest way to install the key**
+
+From the machine running Terraform:
+```
+ssh-copy-id -i ~/.ssh/id_ed25519.pub jafar@192.168.238.50
+```
+It may ask for the jafar password once.
+
+Then test:
+```
+ssh -i ~/.ssh/id_ed25519 jafar@192.168.238.50
+```
+If you can login without entering a password, Terraform should be able to authenticate.
+
 **Step 2 — Install Terraform:**
 
 **Install Terraform**
