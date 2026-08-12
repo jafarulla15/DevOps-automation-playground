@@ -167,3 +167,95 @@ Verify:
 git --version
 ```
 
+**Step 3 — Create the Terraform project:**
+I recommend keeping your infrastructure separate from your EARN application source code.
+
+Create this initial structure:
+```
+earn-infrastructure/
+├── terraform/
+│   └── training/
+│       ├── main.tf
+│       ├── variables.tf
+│       ├── outputs.tf
+│       ├── providers.tf
+│       └── terraform.tfvars.example
+│
+├── scripts/
+│
+├── k8s/
+│
+├── helm/
+│
+├── jenkins/
+│
+├── monitoring/
+│
+├── docs/
+│
+└── README.md
+```
+
+**Step 2.A — Our first Terraform configuration:**
+Go into:
+```
+cd terraform/training
+```
+
+Create providers.tf:
+```
+terraform {
+  required_version = ">= 1.9.0"
+
+  required_providers {
+    null = {
+      source  = "hashicorp/null"
+      version = "~> 3.2"
+    }
+  }
+}
+```
+
+Create variables.tf:
+```
+variable "server_name" {
+  description = "Training server hostname"
+  type        = string
+  default     = "earn-training"
+}
+
+variable "ssh_user" {
+  description = "Linux user used for remote configuration"
+  type        = string
+}
+
+variable "server_ip" {
+  description = "IP address of the existing Linux VM"
+  type        = string
+}
+
+variable "ssh_private_key_path" {
+  description = "Path to SSH private key"
+  type        = string
+}
+```
+Create terraform.tfvars.example:
+```
+server_name           = "earn-training"
+ssh_user              = "your-linux-user"
+server_ip             = "192.168.1.150"
+ssh_private_key_path  = "~/.ssh/id_ed25519"
+```
+Do not commit your real terraform.tfvars.
+
+Create .gitignore in the project root:
+```
+.terraform/
+*.tfstate
+*.tfstate.*
+terraform.tfvars
+*.tfplan
+crash.log
+```
+
+
