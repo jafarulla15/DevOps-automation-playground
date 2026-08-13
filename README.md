@@ -430,6 +430,3 @@ terraform apply
       ↓
 verify
 ```
-
-
-
