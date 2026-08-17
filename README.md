@@ -369,7 +369,56 @@ The hashicorp/null provider supplies that resource type.
 
 Without the provider declaration, Terraform won't know which provider should handle it.
 
-**Step 3.B — Try Terraform Command:**
+**Step 3.B — Configure sudo command password-less for the user:**
+**Why need:** 
+Terraform cannot interactively type the password, so the command waits which use sudo. 
+**Recommended solution: configure passwordless sudo -**
+For a Terraform/DevOps automation server, configure the "jafar" user to execute required sudo commands without a password.
+
+**Configure passwordless sudo:**
+
+On Ubuntu:
+```
+sudo visudo
+```
+Add this at the bottom:
+```
+jafar ALL=(ALL) NOPASSWD:ALL
+```
+Save and exit.
+If you're using nano, press:
+```
+Ctrl+O
+Enter
+Ctrl+X
+```
+If you're using vi/vim:
+```
+Esc
+:wq
+Enter
+```
+Verify it
+   ```
+Log out:
+exit
+```
+Then SSH again:
+```
+ssh jafar@192.168.238.50
+```
+Run:
+```
+sudo -n true
+```
+If there is no password prompt and no error, passwordless sudo is working.
+
+You can also verify:
+```
+sudo -n apt-get update
+```
+
+**Step 3.C — Try Terraform Command:**
 ```
 terraform init
       ↓
@@ -381,6 +430,3 @@ terraform apply
       ↓
 verify
 ```
-
-
-
