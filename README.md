@@ -431,6 +431,22 @@ terraform apply
 verify
 ```
 
+**Step 3.D — Try Below also To Run Terraform:**
+
+```
+terraform fmt -recursive
+       ↓
+terraform init
+      ↓
+terraform validate
+      ↓
+terraform plan -out=tfplan
+      ↓
+Review plan
+      ↓
+terraform apply tfplan
+```
+
 **Step 4 — Add Docker Installation Module:**
 
 ```
@@ -480,3 +496,47 @@ Expected:
 ```
 Connection to localhost 1433 port [tcp/ms-sql-s] succeeded!
 ```
+
+**Step 6 — Add Jenkins Module:**
+
+```
+terraform/
+│
+├── main.tf
+├── providers.tf
+├── variables.tf
+├── outputs.tf
+├── terraform.tfvars
+│
+└── modules/
+    │
+    ├── docker/
+    │
+    ├── sqlserver/
+    │
+    └── jenkins/
+        ├── main.tf
+        ├── variables.tf
+        ├── outputs.tf
+        └── terraform.tf 
+```
+
+**Get Jenkins initial password:**
+
+Run:
+```
+docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+```
+You'll get something like:
+```
+a9c8e7d6c5b4a3...
+```
+Open:
+```
+http://<Ubuntu-IP>:8080
+```
+Then enter that password.
+
+
+
+
