@@ -430,3 +430,43 @@ terraform apply
       ↓
 verify
 ```
+
+**Step 4 — Add Docker Installation Module:**
+
+```
+terraform/
+│
+├── main.tf
+├── providers.tf
+├── variables.tf
+├── outputs.tf
+├── terraform.tfvars
+│
+└── modules/
+    │
+    ├── docker/
+    │   ├── main.tf
+    │   ├── variables.tf
+    │   └── outputs.tf
+```
+
+
+**Step 5 — Add SQL Server Express Installation and Setup Module:**
+
+```
+terraform/
+│
+├── main.tf
+├── providers.tf
+├── variables.tf
+├── outputs.tf
+├── terraform.tfvars
+│
+└── modules/
+    │
+    └── sqlserver/
+        ├── main.tf
+        ├── variables.tf
+        ├── outputs.tf
+        └── terraform.tf   ← ADD THIS
+```
