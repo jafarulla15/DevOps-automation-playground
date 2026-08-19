@@ -470,3 +470,13 @@ terraform/
         ├── outputs.tf
         └── terraform.tf   ← ADD THIS
 ```
+
+**Check the SQL Server connection:**
+You can also test locally:
+```
+nc -zv localhost 1433
+```
+Expected:
+```
+Connection to localhost 1433 port [tcp/ms-sql-s] succeeded!
+```
