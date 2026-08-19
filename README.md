@@ -499,6 +499,22 @@ Connection to localhost 1433 port [tcp/ms-sql-s] succeeded!
 
 **Step 6 — Add Jenkins Module:**
 
+For Terraform → Docker → Jenkins CI/CD architecture, I would make the Jenkins module self-contained so that terraform apply creates a Jenkins instance that is already configured with:
+```
+Jenkins LTS
+Required plugins
+JCasC configuration
+Admin user
+Persistent Jenkins home
+Docker CLI
+Docker socket access for CI/CD
+Jenkins web port 8080
+Jenkins agent port 50000
+Timezone
+Basic security configuration
+```
+**File Architecture:**
+
 ```
 terraform/
 │
@@ -518,7 +534,11 @@ terraform/
         ├── main.tf
         ├── variables.tf
         ├── outputs.tf
-        └── terraform.tf 
+        ├── terraform.tf
+        ├── Dockerfile
+        └── config/
+            ├── plugins.txt
+            └── jenkins.yaml
 ```
 
 **Get Jenkins initial password:**
@@ -536,6 +556,62 @@ Open:
 http://<Ubuntu-IP>:8080
 ```
 Then enter that password.
+
+
+**Verify Jenkins**
+
+Check container:
+```
+docker ps
+```
+You should see something similar to:
+```
+CONTAINER ID   IMAGE                   PORTS
+xxxxxx         jenkins/jenkins:lts    0.0.0.0:8080->8080/tcp
+                                      0.0.0.0:50000->50000/tcp
+```
+
+**Jenkins plugins:**
+
+You also mentioned wanting CI/CD, GitHub, Docker, Kubernetes, Prometheus/Grafana, etc.
+We can make the Terraform module more complete by having Jenkins automatically install plugins such as:
+
+```
+Git
+GitHub
+Pipeline
+Pipeline: Stage View
+Credentials Binding
+Docker Pipeline
+Docker
+Kubernetes
+Kubernetes CLI
+SSH Agent
+Blue Ocean
+```
+
+**Terraform will approximately do:**
+```
+Terraform
+   │
+   ├── Create jenkins_home volume
+   │
+   ├── Build custom Jenkins Docker image
+   │       │
+   │       ├── Jenkins LTS
+   │       ├── Docker CLI
+   │       ├── Git
+   │       ├── Required plugins
+   │       └── JCasC
+   │
+   └── Create Jenkins container
+           │
+           ├── :8080
+           ├── :50000
+           ├── /var/jenkins_home
+           └── /var/run/docker.sock
+```
+
 
 
 
