@@ -799,4 +799,25 @@ terraform/
               │ OpenTelemetry → Traces/telemetry    │
               └─────────────────────────────────────┘
 ```
-              
+
+**One command to see everything:**
+
+**Run:**
+```
+docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}"
+```
+**Will get:**
+```
+NAMES        IMAGE                       STATUS          PORTS
+jenkins      jenkins/jenkins:lts        Up ...          0.0.0.0:8080->8080/tcp
+prometheus   prom/prometheus:latest     Up ...          0.0.0.0:9090->9090/tcp
+grafana      grafana/grafana:latest     Up ...          0.0.0.0:3000->3000/tcp
+```
+**URLs:**
+```
+NAMES               IMAGE                    STATUS         PORTS
+jenkins             d5bd8c0f799d             Up ...   0.0.0.0:8080->8080/tcp, 0.0.0.0:50000->50000/tcp
+sqlserver-express   ba4c8329f48f             Up ...   0.0.0.0:1433->1433/tcp
+prometheus          prom/prometheus:latest   Up ...   0.0.0.0:9090->9090/tcp
+grafana             grafana/grafana:latest   Up ...   0.0.0.0:3000->3000/tcp
+```
