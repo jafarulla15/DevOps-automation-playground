@@ -39,7 +39,7 @@ variable "edition" {
   default     = "Express"
 
   validation {
-    condition     = contains(
+    condition = contains(
       ["Developer", "Express", "Standard", "Enterprise"],
       var.edition
     )

@@ -1,1 +1,1 @@
-{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"docker","Source":"./modules/docker","Dir":"modules/docker"}]}
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"docker","Source":"./modules/docker","Dir":"modules/docker"},{"Key":"grafana","Source":"./modules/grafana","Dir":"modules/grafana"},{"Key":"jenkins","Source":"./modules/jenkins","Dir":"modules/jenkins"},{"Key":"prometheus","Source":"./modules/prometheus","Dir":"modules/prometheus"},{"Key":"sqlserver","Source":"./modules/sqlserver","Dir":"modules/sqlserver"}]}

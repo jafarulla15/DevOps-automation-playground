@@ -18,3 +18,40 @@ variable "ssh_private_key_path" {
   description = "Path to SSH private key"
   type        = string
 }
+
+# SQL -Server
+
+variable "sqlserver_sa_password" {
+  description = "SQL Server SA password"
+  type        = string
+  sensitive   = true
+
+  validation {
+    condition     = length(var.sqlserver_sa_password) >= 8
+    error_message = "SQL Server SA password must be at least 8 characters."
+  }
+}
+
+# Jenkins
+
+variable "jenkins_admin_password" {
+  description = "Jenkins administrator password"
+  type        = string
+  sensitive   = true
+}
+
+# Grafana
+
+variable "grafana_admin_user" {
+  description = "Grafana administrator username"
+  type        = string
+  default     = "admin"
+}
+
+variable "grafana_admin_password" {
+  description = "Grafana administrator password"
+  type        = string
+  sensitive   = true
+}
+
+
