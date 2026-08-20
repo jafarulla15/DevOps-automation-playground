@@ -1,5 +1,63 @@
 "# DevOps-automation-playground" 
 
+**Complete Roadmap**
+
+```
+| Step | Work                                 |
+| ---: | ------------------------------------ |
+|    1 | Prepare Ubuntu VM                    |
+|    2 | Create Terraform project             |
+|    3 | Terraform server bootstrap           |
+|    4 | Install Docker + k3s                 |
+|    5 | Kubernetes namespaces/foundation     |
+|    6 | Helm + storage                       |
+|    7 | Traefik + Ingress                    |
+|    8 | SQL Server Express                   |
+|    9 | GitHub Container Registry            |
+|   10 | Jenkins                              |
+|   11 | GitHub → Jenkins → GHCR → Kubernetes |
+|   12 | Containerize EARN services           |
+|   13 | Reusable Helm chart                  |
+|   14 | Deploy EARN backend                  |
+|   15 | Deploy EARN frontend + Ingress       |
+|   16 | Database migration/configuration     |
+|   17 | Prometheus                           |
+|   18 | Grafana                              |
+|   19 | Loki + Alloy                         |
+|   20 | OpenTelemetry Collector              |
+|   21 | Loki/Grafana integration             |
+|   22 | OpenTelemetry in .NET                |
+|   23 | Tempo                                |
+|   24 | Alertmanager                         |
+|   25 | EARN-specific alerts                 |
+|   26 | Production-style Jenkins pipeline    |
+|   27 | Image vulnerability scanning         |
+|   28 | Automated Helm deployment            |
+|   29 | Rollback                             |
+|   30 | Terraform cleanup                    |
+|   31 | Terraform modules/environments       |
+|   32 | Terraform state strategy             |
+|   33 | Kubernetes RBAC                      |
+|   34 | NetworkPolicies                      |
+|   35 | Secrets management                   |
+|   36 | Container security                   |
+|   37 | Liveness/readiness                   |
+|   38 | CPU/memory resource limits           |
+|   39 | HPA                                  |
+|   40 | SQL Server backup                    |
+|   41 | Kubernetes backup                    |
+|   42 | Disaster recovery testing            |
+|   43 | Load testing                         |
+|   44 | Performance analysis                 |
+|   45 | CI/CD quality gates                  |
+|   46 | Deployment environments              |
+|   47 | Grafana dashboards                   |
+|   48 | Metrics/logs/traces correlation      |
+|   49 | Documentation                        |
+|   50 | Full end-to-end testing              |
+
+```
+
 **Step 1 — Prepare Ubuntu:**
 
 SSH into your Ubuntu VM and run:
