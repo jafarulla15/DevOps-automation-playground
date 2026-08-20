@@ -57,6 +57,88 @@
 |   50 | Full end-to-end testing              |
 
 ```
+**Suggested Module architecture:**
+```
+terraform/
+│
+├── main.tf
+├── provider.tf
+├── variables.tf
+├── outputs.tf
+├── versions.tf
+├── terraform.tfvars
+│
+├── modules/
+│   │
+│   ├── server-bootstrap/
+│   ├── docker/
+│   ├── network/
+│   ├── storage/
+│   │
+│   ├── sqlserver/
+│   ├── jenkins/
+│   ├── github/
+│   ├── registry/
+│   │
+│   ├── prometheus/
+│   ├── grafana/
+│   ├── loki/
+│   ├── otel-collector/
+│   ├── node-exporter/
+│   ├── cadvisor/
+│   ├── alertmanager/
+│   │
+│   ├── security/
+│   ├── reverse-proxy/
+│   ├── ssl/
+│   │
+│   ├── keycloak/
+│   ├── rabbitmq/
+│   ├── redis/
+│   │
+│   ├── microservices/
+│   ├── frontend/
+│   ├── config/
+│   ├── secrets/
+│   │
+│   ├── backup/
+│   ├── monitoring/
+│   ├── logging/
+│   ├── health-check/
+│   └── ci-cd/
+│
+└── environments/
+    └── training/
+        ├── main.tf
+        ├── variables.tf
+        └── terraform.tfvars
+```
+**Here's View:**
+
+```
+                    ROOT TERRAFORM
+                          │
+        ┌─────────────────┼─────────────────┐
+        │                 │                 │
+     Platform           Data            Monitoring
+        │                 │                 │
+     Docker            SQL Server       Prometheus
+     Network            Redis            Grafana
+     Security           RabbitMQ         Loki
+     Storage                              OTel
+        │
+        └───────────────┐
+                        │
+                  EARN Application
+                        │
+             ┌──────────┴──────────┐
+             │                     │
+          Frontend             Microservices
+             │                     │
+             └──────────┬──────────┘
+                        │
+                   Reverse Proxy
+```
 
 **Step 1 — Prepare Ubuntu:**
 
