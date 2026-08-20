@@ -762,4 +762,41 @@ terraform/
 ```
 
 
+**Important monitoring infrastructure:**
+```
+                         ┌─────────────────────┐
+                         │      EARN App       │
+                         │                     │
+                         │ .NET APIs           │
+                         │ Angular             │
+                         │ Microservices       │
+                         └──────────┬──────────┘
+                                    │
+                             /metrics
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │     Prometheus      │
+                         │      :9090          │
+                         └──────────┬──────────┘
+                                    │
+                              PromQL queries
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │       Grafana       │
+                         │       :3000         │
+                         └─────────────────────┘
 
+              ┌─────────────────────────────────────┐
+              │             Monitoring              │
+              │                                     │
+              │ Node Exporter → Server metrics      │
+              │ cAdvisor      → Docker metrics      │
+              │ Prometheus    → Metrics storage     │
+              │ Grafana       → Visualization       │
+              │ Loki          → Logs                │
+              │ OpenTelemetry → Traces/telemetry    │
+              └─────────────────────────────────────┘
+```
+              
