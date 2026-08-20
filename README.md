@@ -612,7 +612,154 @@ Terraform
            └── /var/run/docker.sock
 ```
 
+**Step 7 — Add Prometheus Module:**
 
+**Knowledge:**
+**Why need: Create Monitoring Network**
+
+The Docker network is needed because Prometheus and Grafana are separate Docker containers, but they need to communicate with each other.
+Think of the Docker network as a private virtual LAN for your monitoring containers.
+Without a monitoring network
+
+You have:
+```
+Ubuntu Server
+│
+├── Prometheus container :9090
+│
+└── Grafana container :3000
+```
+Grafana needs to connect to Prometheus to query metrics.
+
+If you use a dedicated Docker network, they can communicate using Docker container/service names:
+```
+Grafana
+   │
+   │ HTTP
+   │ http://prometheus:9090
+   ▼
+Prometheus
+```
+This is much cleaner than trying to use the host IP.
+
+What this Terraform code does
+```
+resource "docker_network" "monitoring" {
+  name = "monitoring"
+}
+```
+Terraform creates a Docker network equivalent to:
+```
+docker network create monitoring
+```
+You can verify it with:
+```
+docker network ls
+```
+You should see:
+```
+NETWORK ID     NAME          DRIVER
+xxxxxxx        monitoring    bridge
+```
+**So the architecture becomes:**
+```
+                    Docker Network: monitoring
+              ┌──────────────────────────────────┐
+              │                                  │
+              │   ┌──────────────┐               │
+              │   │  Prometheus  │               │
+              │   │    :9090     │               │
+              │   └──────▲───────┘               │
+              │          │                        │
+              │          │ PromQL/HTTP            │
+              │          │                        │
+              │   ┌──────┴───────┐               │
+              │   │   Grafana    │               │
+              │   │    :3000     │               │
+              │   └──────────────┘               │
+              │                                  │
+              └──────────────────────────────────┘
+                         │
+                         │
+                    Ubuntu Host
+```
+
+
+**File Architecture:**
+
+```
+terraform/
+│
+├── main.tf
+├── providers.tf
+├── variables.tf
+├── outputs.tf
+├── terraform.tfvars
+│
+├── prometheus/
+│   └── prometheus.yml  ← Prometheus configuration
+│
+└── modules/
+    │
+    ├── docker/
+    │
+    ├── sqlserver/
+    │
+    ├── jenkins/
+    │
+    ├── prometheus/
+        ├── main.tf
+        ├── variables.tf
+        ├── outputs.tf
+
+```
+**Knowledge:**
+**Why not put prometheus.yml inside modules/prometheus/?:**
+
+You can, but I recommend keeping it outside the module.
+The module should be reusable:
+```
+modules/prometheus/
+```
+should contain the generic Prometheus infrastructure.
+
+**In short:**
+modules/prometheus/ = **how to create Prometheus**
+prometheus/prometheus.yml = **what Prometheus should monitor**
+
+
+**Step 8 — Add Grafana Module:**
+
+**File Architecture:**
+
+```
+terraform/
+│
+├── main.tf
+├── providers.tf
+├── variables.tf
+├── outputs.tf
+├── terraform.tfvars
+│
+├── prometheus/
+│   └── prometheus.yml  ← Prometheus configuration
+│
+└── modules/
+    │
+    ├── docker/
+    │
+    ├── sqlserver/
+    │
+    ├── jenkins/
+    │
+    ├── prometheus/
+    │
+    └── grafana/
+        ├── main.tf
+        ├── variables.tf
+        ├── outputs.tf
+
+```
 
 
 
