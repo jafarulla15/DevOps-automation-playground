@@ -1092,4 +1092,35 @@ variable "rabbitmq_password" {
 }
 ```
 
+**Whatever worked above, Outputs:**
+
+```
+alertmanager_url = "http://localhost:9093"
+docker_installation_status = "Docker installation completed"
+docker_server_ip = "192.168.238.50"
+grafana_container = "grafana"
+grafana_url = "http://localhost:3000"
+jenkins_admin_user = "admin"
+jenkins_agent_port = 50000
+jenkins_container = "jenkins"
+jenkins_url = "http://192.168.238.50:8080"
+jenkins_volume = "jenkins_home"
+loki_url = "http://localhost:3100"
+otel_grpc_endpoint = "http://localhost:4317"
+otel_http_endpoint = "http://localhost:4318"
+prometheus_container = "prometheus"
+prometheus_url = "http://localhost:9090"
+rabbitmq_amqp_endpoint = "amqp://localhost:5672"
+rabbitmq_management_url = "http://localhost:15672"
+redis_endpoint = "localhost:6379"
+registry_url = "http://localhost:5000"
+server_ip = "192.168.238.50"
+server_name = "earn-training"
+sqlserver_connection = "localhost:1433"
+sqlserver_container = "sqlserver-express"
+sqlserver_port = 1433
+sqlserver_volume = "sqlserver_data"
+vault_url = "http://localhost:8200"
+```
+
 
