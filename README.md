@@ -961,3 +961,66 @@ sqlserver-express   ba4c8329f48f             Up ...   0.0.0.0:1433->1433/tcp
 prometheus          prom/prometheus:latest   Up ...   0.0.0.0:9090->9090/tcp
 grafana             grafana/grafana:latest   Up ...   0.0.0.0:3000->3000/tcp
 ```
+
+
+**Resulting Architecture:**
+```
+                         Ubuntu Server
+                              │
+                         Docker Engine
+                              │
+                       project_network
+                              │
+       ┌──────────────┬───────┼───────────┬─────────────┐
+       │              │       │           │             │
+    Jenkins       SQL Server Redis     RabbitMQ       Vault
+       │              │       │           │             │
+       │              │       │           │             │
+       └──────────────┴───────┼───────────┴─────────────┘
+                              │
+                       Microservices
+                              │
+                    OpenTelemetry
+                              │
+                    ┌─────────┴─────────┐
+                    │                   │
+                  Loki             Prometheus
+                    │                   │
+                    │             Alertmanager
+                    │                   │
+                    └───────┬───────────┘
+                            │
+                         Grafana
+
+
+                 Docker Registry
+                       │
+                       │
+                 Jenkins CI/CD
+                       │
+                       ▼
+                Build Docker Image
+                       │
+                       ▼
+                 Push to Registry
+                       │
+                       ▼
+                 Deploy Microservice
+```
+
+**Recommended ports**
+```
+| Component           | Container Port | Host Port |
+| ------------------- | -------------: | --------: |
+| Loki                |           3100 |      3100 |
+| OpenTelemetry gRPC  |           4317 |      4317 |
+| OpenTelemetry HTTP  |           4318 |      4318 |
+| OTel Metrics        |           8888 |      8888 |
+| Redis               |           6379 |      6379 |
+| RabbitMQ AMQP       |           5672 |      5672 |
+| RabbitMQ Management |          15672 |     15672 |
+| Alertmanager        |           9093 |      9093 |
+| Vault               |           8200 |      8200 |
+| Docker Registry     |           5000 |      5000 |
+```
+
