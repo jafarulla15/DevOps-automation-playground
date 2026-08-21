@@ -1024,3 +1024,72 @@ grafana             grafana/grafana:latest   Up ...   0.0.0.0:3000->3000/tcp
 | Docker Registry     |           5000 |      5000 |
 ```
 
+**Important Knowledge: root module vs child modules**
+
+If these variables are actually intended for child modules, declaring them only inside the child module is not enough.
+
+For example, if your structure is:
+```
+main.tf
+variables.tf
+terraform.tfvars
+```
+```
+modules/
+├── vault/
+│   ├── main.tf
+│   └── variables.tf
+└── rabbitmq/
+    ├── main.tf
+    └── variables.tf
+```
+Then the root variables.tf still needs:
+```
+variable "vault_root_token" {
+  description = "HashiCorp Vault root token"
+  type        = string
+  sensitive   = true
+}
+
+
+variable "rabbitmq_password" {
+  description = "RabbitMQ password"
+  type        = string
+  sensitive   = true
+}
+```
+And your root main.tf should pass them into the modules:
+```
+module "vault" {
+  source = "./modules/vault"
+
+
+  vault_root_token = var.vault_root_token
+}
+
+
+module "rabbitmq" {
+  source = "./modules/rabbitmq"
+
+
+  rabbitmq_password = var.rabbitmq_password
+}
+```
+The child modules then declare their own variables:
+```
+variable "vault_root_token" {
+  description = "HashiCorp Vault root token"
+  type        = string
+  sensitive   = true
+}
+```
+and:
+```
+variable "rabbitmq_password" {
+  description = "RabbitMQ password"
+  type        = string
+  sensitive   = true
+}
+```
+
+
