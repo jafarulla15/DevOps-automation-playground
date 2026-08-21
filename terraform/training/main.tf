@@ -55,6 +55,10 @@ resource "docker_network" "monitoring" {
   name = "monitoring"
 }
 
+#resource "docker_network" "monitoring" {
+#  name = var.network_name
+#}
+
 module "prometheus" {
   source = "./modules/prometheus"
 
@@ -83,3 +87,67 @@ module "grafana" {
   depends_on = [module.docker]
 }
 
+
+
+# others
+
+module "loki" {
+  source       = "./modules/loki"
+  network_name = docker_network.monitoring.name
+  port         = var.loki_port
+  config_file  = "${path.root}/configs/loki/loki-config.yml"
+
+  depends_on = [module.docker]
+}
+
+module "opentelemetry" {
+  source       = "./modules/opentelemetry"
+  network_name = docker_network.monitoring.name
+  grpc_port    = var.otel_grpc_port
+  http_port    = var.otel_http_port
+  config_file  = "${path.root}/configs/otel/otel-collector-config.yml"
+
+  depends_on = [module.docker]
+}
+
+module "redis" {
+  source       = "./modules/redis"
+  network_name = docker_network.monitoring.name
+  port         = var.redis_port
+
+  depends_on = [module.docker]
+}
+
+module "rabbitmq" {
+  source          = "./modules/rabbitmq"
+  network_name    = docker_network.monitoring.name
+  amqp_port       = var.rabbitmq_port
+  management_port = var.rabbitmq_management_port
+
+  depends_on = [module.docker]
+}
+
+module "alertmanager" {
+  source       = "./modules/alertmanager"
+  network_name = docker_network.monitoring.name
+  port         = var.alertmanager_port
+  config_file  = "${path.root}/configs/alertmanager/alertmanager.yml"
+
+  depends_on = [module.docker]
+}
+
+module "vault" {
+  source       = "./modules/vault"
+  network_name = docker_network.monitoring.name
+  port         = var.vault_port
+
+  depends_on = [module.docker]
+}
+
+module "registry" {
+  source       = "./modules/registry"
+  network_name = docker_network.monitoring.name
+  port         = var.registry_port
+
+  depends_on = [module.docker]
+}

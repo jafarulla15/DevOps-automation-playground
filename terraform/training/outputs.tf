@@ -79,3 +79,44 @@ output "grafana_container" {
   description = "Grafana container"
   value       = module.grafana.container_name
 }
+
+# Others
+
+output "loki_url" {
+  value = module.loki.url
+}
+
+output "otel_grpc_endpoint" {
+  value = module.opentelemetry.grpc_endpoint
+}
+
+output "otel_http_endpoint" {
+  value = module.opentelemetry.http_endpoint
+}
+
+output "redis_endpoint" {
+  value = module.redis.endpoint
+}
+
+output "rabbitmq_amqp_endpoint" {
+  value = module.rabbitmq.amqp_endpoint
+}
+
+output "rabbitmq_management_url" {
+  value = module.rabbitmq.management_url
+}
+
+output "alertmanager_url" {
+  value = module.alertmanager.url
+}
+
+output "vault_url" {
+  value = module.vault.url
+}
+
+output "registry_url" {
+  value = module.registry.url
+}
+
+
+

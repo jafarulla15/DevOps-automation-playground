@@ -13,3 +13,12 @@ jenkins_admin_password = "YourStrongPassword123!"
 grafana_admin_user     = "admin"
 grafana_admin_password = "YourStrongPassword123!"
 
+# Redis
+redis_password = "CHANGE_ME"
+
+# RabbitMQ
+rabbitmq_username = "earn"
+rabbitmq_password = "CHANGE_ME"
+
+# Vault
+vault_root_token = "CHANGE_ME"

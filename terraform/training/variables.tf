@@ -55,3 +55,55 @@ variable "grafana_admin_password" {
 }
 
 
+# Others
+
+variable "network_name" {
+  type    = string
+  default = "monitoring"
+}
+
+variable "loki_port" {
+  type    = number
+  default = 3100
+}
+
+variable "otel_grpc_port" {
+  type    = number
+  default = 4317
+}
+
+variable "otel_http_port" {
+  type    = number
+  default = 4318
+}
+
+variable "redis_port" {
+  type    = number
+  default = 6379
+}
+
+variable "rabbitmq_port" {
+  type    = number
+  default = 5672
+}
+
+variable "rabbitmq_management_port" {
+  type    = number
+  default = 15672
+}
+
+variable "alertmanager_port" {
+  type    = number
+  default = 9093
+}
+
+variable "vault_port" {
+  type    = number
+  default = 8200
+}
+
+variable "registry_port" {
+  type    = number
+  default = 5000
+}
+
