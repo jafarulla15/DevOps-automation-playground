@@ -7,7 +7,7 @@ resource "docker_container" "this" {
   image   = var.image
   restart = "unless-stopped"
 
-  cap_add = ["IPC_LOCK"]
+  # cap_add = ["IPC_LOCK"]  --- not supported on this docker version
 
   ports {
     internal = 8200

@@ -107,3 +107,25 @@ variable "registry_port" {
   default = 5000
 }
 
+variable "vault_root_token" {
+  description = "HashiCorp Vault root token"
+  type        = string
+  sensitive   = true
+}
+
+variable "rabbitmq_password" {
+  description = "RabbitMQ password"
+  type        = string
+  sensitive   = true
+}
+
+variable "redis_password" {
+  description = "Redis password"
+  type        = string
+  sensitive   = true
+}
+
+variable "rabbitmq_username" {
+  description = "RabbitMQ username"
+  type        = string
+}
