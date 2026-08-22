@@ -1123,4 +1123,25 @@ sqlserver_volume = "sqlserver_data"
 vault_url = "http://localhost:8200"
 ```
 
+**Add a Jenkins pipeline module**
+
+**Terraform structure**
+```
+terraform/
+├── main.tf
+├── providers.tf
+├── variables.tf
+├── terraform.tfvars
+│
+└── modules/
+    ├── jenkins/
+    │   ├── main.tf
+    │   ├── variables.tf
+    │   └── outputs.tf
+    │
+    └── jenkins-pipeline/
+        ├── main.tf
+        ├── variables.tf
+        └── outputs.tf
+```
 
