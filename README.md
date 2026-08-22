@@ -1145,3 +1145,33 @@ terraform/
         └── outputs.tf
 ```
 
+**New Architecture:**
+```
+                         Terraform
+                             │
+       ┌─────────────────────┼─────────────────────┐
+       │                     │                     │
+    Infrastructure       CI/CD                 Monitoring
+       │                     │                     │
+       ├── Docker         Jenkins              Prometheus
+       ├── Network           │                 Grafana
+       ├── SQL Server        │                 Loki
+       ├── Redis             │                 Alertmanager
+       ├── RabbitMQ          │                 OpenTelemetry
+       ├── Vault             │
+       └── Registry          │
+                             │
+                         GitHub
+                             │
+                             ▼
+                          Build
+                             │
+                             ▼
+                     Docker Registry
+                             │
+                             ▼
+                       Application
+```
+
+
+                     
