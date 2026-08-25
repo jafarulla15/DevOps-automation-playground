@@ -1202,4 +1202,14 @@ sqlserver_port = 1433
 sqlserver_volume = "sqlserver_data"
 vault_url = "http://localhost:8200"
 ```
-                     
+
+
+**multi-pipeline Jenkins module:**
+
+Created modules/jenkins-scm-pipeline/ — a reusable, multi-pipeline Jenkins module:
+
+**variables.tf** — one pipelines map variable (for_each-driven), each entry specifying repo/branch/Jenkinsfile path/poll schedule/credentials, with a validation block enforcing either an existing credential ID or a username+token pair.
+**main.tf** — creates a jenkins_credential_username per pipeline that needs one, and a jenkins_job per pipeline configured via a template file.
+**templates/pipeline-scm.xml.tpl** — the "Pipeline script from SCM" job config (Git SCM + SCMTrigger polling), kept out of main.tf for readability.
+**terraform.tf** — declares the taiidani/jenkins provider requirement.
+**outputs.tf, README.md** — job names/credential IDs output, full usage docs.                  
