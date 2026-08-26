@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(terraform fmt *)",
+      "Bash(sed -i 's/resource \"jenkins_credential\" \"git\"/resource \"jenkins_credential_username\" \"git\"/' /tmp/claude-1000/-home-jafar-DevOps-Automation-DevOps-automation-playground-terraform-training/b9c8905a-344d-4ee7-8260-a25604a5d300/scratchpad/tf-validate-nginx/jenkins-pipeline/main.tf)",
+      "Bash(terraform validate *)",
+      "Bash(sed -i 's/jenkins_credential\\\\.git/jenkins_credential_username.git/' /tmp/claude-1000/-home-jafar-DevOps-Automation-DevOps-automation-playground-terraform-training/b9c8905a-344d-4ee7-8260-a25604a5d300/scratchpad/tf-validate-nginx/jenkins-pipeline/main.tf /tmp/claude-1000/-home-jafar-DevOps-Automation-DevOps-automation-playground-terraform-training/b9c8905a-344d-4ee7-8260-a25604a5d300/scratchpad/tf-validate-nginx/jenkins-pipeline/outputs.tf)",
+      "Bash(terraform init *)",
+      "Bash(terraform state *)",
+      "Bash(sudo chown jafar:jafar terraform.tfstate terraform.tfstate.backup tfplan)",
+      "Bash(terraform plan *)"
+    ]
+  }
+}
