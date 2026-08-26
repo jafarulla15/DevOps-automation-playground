@@ -1212,4 +1212,83 @@ Created modules/jenkins-scm-pipeline/ — a reusable, multi-pipeline Jenkins mod
 **main.tf** — creates a jenkins_credential_username per pipeline that needs one, and a jenkins_job per pipeline configured via a template file.
 **templates/pipeline-scm.xml.tpl** — the "Pipeline script from SCM" job config (Git SCM + SCMTrigger polling), kept out of main.tf for readability.
 **terraform.tf** — declares the taiidani/jenkins provider requirement.
-**outputs.tf, README.md** — job names/credential IDs output, full usage docs.                  
+**outputs.tf, README.md** — job names/credential IDs output, full usage docs.  
+
+
+=====================================================================================================
+**JenkinsPipeline:**
+=====================================================================================================
+**Step 1 — GitHub**
+GitHub receives the code.
+
+**Step 2 — GitHub notifies Jenkins**
+
+Using a webhook:
+Or Jenkins can periodically check GitHub using:
+H/5 * * * *
+which means Jenkins checks approximately every 5 minutes, with a distributed hash-based minute.
+
+**5. Jenkins checks out the code**
+
+Jenkins runs something equivalent to:
+git clone https://github.com/your-user/my-dotnet-api.git
+The repository is downloaded onto the Jenkins workspace.
+
+For example:
+/var/lib/jenkins/workspace/my-dotnet-api/
+Then:
+/var/lib/jenkins/workspace/my-dotnet-api/
+│
+├── MyApi.csproj
+├── Program.cs
+├── Controllers/
+├── Dockerfile
+├── Jenkinsfile
+└── ...
+**6. Jenkins builds the .NET application**
+
+The Jenkins host executes:
+dotnet restore
+dotnet build
+dotnet test
+dotnet publish
+
+So these commands are not executed by GitHub.
+They are executed by the Jenkins execution environment.
+
+**7. Jenkins builds the Docker image**
+For example:
+docker build -t my-dotnet-api:1.0.0 .
+The Docker engine could be running on the same Ubuntu host:
+Ubuntu Host
+│
+├── Jenkins
+│
+└── Docker
+      │
+      └── my-dotnet-api:1.0.0
+
+Then Jenkins could run:
+
+docker run -d \
+  --name my-dotnet-api \
+  -p 5000:8080 \
+  my-dotnet-api:1.0.0
+
+**Again, this happens on the Jenkins host if Jenkins is configured to use that host's Docker engine.**
+
+**8. Where does the Docker image go?**
+You have two possibilities.
+
+Option A — Local Docker
+Option B — Your self-hosted Docker Registry
+
+**9. GitHub vs Jenkins vs Terraform**
+A simple way to remember it:
+**GitHub:**
+"I have the code."
+**Jenkins:**
+"I will build, test, Dockerize and deploy the code."
+**Terraform:**
+"I will create and configure the infrastructure that Jenkins and the applications need."
+So for your current setup, GitHub holds your .NET API + Jenkinsfile, while Jenkins on your Ubuntu host actually executes the pipeline.
