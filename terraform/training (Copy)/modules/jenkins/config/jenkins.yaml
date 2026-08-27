@@ -1,0 +1,81 @@
+jenkins:
+  systemMessage: "EARN CI/CD Jenkins Server - Managed by Terraform"
+
+  numExecutors: 2
+
+  mode: NORMAL
+
+  remotingSecurity:
+    enabled: true
+
+  securityRealm:
+    local:
+      allowsSignup: false
+      enableCaptcha: false
+
+      users:
+        - id: "${JENKINS_ADMIN_USER}"
+          password: "${JENKINS_ADMIN_PASSWORD}"
+
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+
+  disableRememberMe: false
+
+  globalNodeProperties:
+    - envVars:
+        env:
+          - key: "TZ"
+            value: "${TZ}"
+
+unclassified:
+
+  location:
+    url: "http://${JENKINS_HOST}:${JENKINS_PORT}/"
+
+  globalLibraries:
+    libraries: []
+
+tool:
+  git:
+    installations:
+      - name: "Default"
+        home: "git"
+
+credentials:
+  system:
+    domainCredentials:
+      - credentials: []
+
+jobs:
+  - script: |
+      folder('EARN') {
+        displayName('EARN Projects')
+        description('EARN CI/CD projects')
+      }
+
+      freeStyleJob('EARN/hello-ci') {
+        description('Initial EARN CI/CD test job')
+
+        scm {
+          git {
+            remote {
+              url('https://github.com/')
+            }
+          }
+        }
+
+        steps {
+          shell('''
+            echo "======================================"
+            echo "EARN Jenkins CI/CD"
+            echo "======================================"
+            echo "Jenkins is ready."
+            echo "Docker version:"
+            docker --version || true
+            echo "Git version:"
+            git --version || true
+          ''')
+        }
+      }
