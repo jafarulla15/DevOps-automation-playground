@@ -168,6 +168,18 @@ module "app_pipelines" {
       docker_network     = docker_network.monitoring.name
     }
 
+    dotnet-api2 = {
+      application_name   = "earn-dotnet-api2"
+      git_repository_url = "https://github.com/jafarulla15/DevOps-Demo-REST-Api.git"
+      git_branch         = "main"
+      git_credentials_id = "github-jenkins-pat"
+      docker_registry    = "192.168.238.50:5001"
+      container_name     = "demo-dotnet-api2"
+      container_port     = 8071
+      host_port          = 5001
+      docker_network     = docker_network.monitoring.name
+    }
+
     angular-app = {
       application_name   = "earn-angular-app"
       git_repository_url = "https://github.com/jafarulla15/DevOps-Demo-Angular.git"
