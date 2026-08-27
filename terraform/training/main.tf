@@ -157,39 +157,45 @@ module "app_pipelines" {
 
   pipelines = {
     dotnet-api = {
-      application_name   = "earn-dotnet-api"
-      git_repository_url = "https://github.com/jafarulla15/DevOps-Demo-REST-Api.git"
-      git_branch         = "main"
-      git_credentials_id = "github-jenkins-pat"
-      docker_registry    = "192.168.238.50:5000"
-      container_name     = "demo-dotnet-api"
-      container_port     = 8070
-      host_port          = 5000
-      docker_network     = docker_network.monitoring.name
+      application_name      = "earn-dotnet-api"
+      git_repository_url    = "https://github.com/jafarulla15/DevOps-Demo-REST-Api.git"
+      git_branch            = "main"
+      git_credentials_id    = "github-jenkins-pat"
+      docker_registry       = "192.168.238.50:5000"
+      container_name        = "demo-dotnet-api"
+      container_port        = 8070
+      host_port             = 5000
+      docker_network        = docker_network.monitoring.name
+      poll_schedule         = "H/10 * * * *"
+      deploy_trigger_phrase = "deploy it now"
     }
 
     dotnet-api2 = {
-      application_name   = "earn-dotnet-api2"
-      git_repository_url = "https://github.com/jafarulla15/DevOps-Demo-REST-Api.git"
-      git_branch         = "main"
-      git_credentials_id = "github-jenkins-pat"
-      docker_registry    = "192.168.238.50:5001"
-      container_name     = "demo-dotnet-api2"
-      container_port     = 8071
-      host_port          = 5001
-      docker_network     = docker_network.monitoring.name
+      application_name      = "earn-dotnet-api2"
+      git_repository_url    = "https://github.com/jafarulla15/DevOps-Demo-REST-Api.git"
+      git_branch            = "main"
+      git_credentials_id    = "github-jenkins-pat"
+      docker_registry       = "192.168.238.50:5000"
+      container_name        = "demo-dotnet-api2"
+      container_port        = 8070
+      host_port             = 5001
+      docker_network        = docker_network.monitoring.name
+      poll_schedule         = "H/10 * * * *"
+      deploy_trigger_phrase = "deploy it now"
     }
 
     angular-app = {
-      application_name   = "earn-angular-app"
-      git_repository_url = "https://github.com/jafarulla15/DevOps-Demo-Angular.git"
-      git_branch         = "main"
-      git_credentials_id = "github-jenkins-pat"
-      docker_registry    = "192.168.238.50:5000"
-      container_name     = "demo-angular-app"
-      container_port     = 80
-      host_port          = 4600
-      docker_network     = docker_network.monitoring.name
+      application_name      = "earn-angular-app"
+      git_repository_url    = "https://github.com/jafarulla15/DevOps-Demo-Angular.git"
+      git_branch            = "main"
+      git_credentials_id    = "github-jenkins-pat"
+      docker_registry       = "192.168.238.50:5000"
+      container_name        = "demo-angular-app"
+      container_port        = 80
+      host_port             = 4600
+      docker_network        = docker_network.monitoring.name
+      poll_schedule         = "H/10 * * * *"
+      deploy_trigger_phrase = "deploy it now"
     }
   }
 

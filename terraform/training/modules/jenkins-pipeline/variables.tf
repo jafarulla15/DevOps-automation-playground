@@ -13,6 +13,12 @@ variable "pipelines" {
     host_port       = optional(number) # if set, published on the host in addition to docker_network
     docker_network  = optional(string) # Docker network to attach the deployed container to
 
-    poll_schedule = optional(string) # e.g. "H/5 * * * *"; if set, adds an unconditional periodic rebuild trigger
+    poll_schedule = optional(string) # e.g. "H/10 * * * *"; if set, adds a periodic check on this schedule
+
+    # If set, the periodic check (poll_schedule) only builds/deploys when the
+    # latest commit is new AND its message contains this phrase
+    # (case-insensitive). Requires poll_schedule to be meaningful - without a
+    # trigger, nothing re-checks the repo automatically anyway.
+    deploy_trigger_phrase = optional(string)
   }))
 }

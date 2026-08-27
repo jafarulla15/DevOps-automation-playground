@@ -118,5 +118,20 @@ output "registry_url" {
   value = module.registry.url
 }
 
+# Application pipelines
+
+output "application_urls" {
+  description = "URL for each Jenkins-deployed application, keyed by pipeline name"
+  value = {
+    for key, port in module.app_pipelines.host_ports :
+    key => port != null ? "http://${var.server_ip}:${port}" : "not published on a host port - reachable via the monitoring network only"
+  }
+}
+
+output "application_jenkins_jobs" {
+  description = "Jenkins job name for each application pipeline"
+  value       = module.app_pipelines.job_names
+}
+
 
 
