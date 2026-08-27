@@ -129,3 +129,22 @@ variable "rabbitmq_username" {
   description = "RabbitMQ username"
   type        = string
 }
+
+# Jenkins Pipeline
+
+variable "jenkins_url" {
+  description = "Jenkins URL"
+  type        = string
+}
+
+variable "jenkins_username" {
+  description = "Jenkins administrator username"
+  type        = string
+  sensitive   = true
+}
+
+variable "jenkins_password" {
+  description = "Jenkins administrator password"
+  type        = string
+  sensitive   = true
+}

@@ -22,3 +22,7 @@ rabbitmq_password = "CHANGE_ME"
 
 # Vault
 vault_root_token = "CHANGE_ME"
+
+# Jenkins provider connection (jenkins_password is set via TF_VAR_jenkins_password instead)
+jenkins_url      = "http://192.168.238.50:8080"
+jenkins_username = "admin"

@@ -151,3 +151,11 @@ module "registry" {
 
   depends_on = [module.docker]
 }
+
+module "app_file_pipelines" {
+  source = "./modules/jenkins-file-pipelines"
+
+  files_dir = "${path.root}/modules/jenkins/files"
+
+  depends_on = [module.jenkins]
+}
