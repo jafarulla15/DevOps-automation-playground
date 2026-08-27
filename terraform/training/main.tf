@@ -152,10 +152,34 @@ module "registry" {
   depends_on = [module.docker]
 }
 
-module "app_file_pipelines" {
-  source = "./modules/jenkins-file-pipelines"
+module "app_pipelines" {
+  source = "./modules/jenkins-pipeline"
 
-  files_dir = "${path.root}/modules/jenkins/files"
+  pipelines = {
+    dotnet-api = {
+      application_name   = "earn-dotnet-api"
+      git_repository_url = "https://github.com/jafarulla15/DevOps-Demo-REST-Api.git"
+      git_branch         = "main"
+      git_credentials_id = "github-jenkins-pat"
+      docker_registry    = "192.168.238.50:5000"
+      container_name     = "demo-dotnet-api"
+      container_port     = 8070
+      host_port          = 5000
+      docker_network     = docker_network.monitoring.name
+    }
+
+    angular-app = {
+      application_name   = "earn-angular-app"
+      git_repository_url = "https://github.com/jafarulla15/DevOps-Demo-Angular.git"
+      git_branch         = "main"
+      git_credentials_id = "github-jenkins-pat"
+      docker_registry    = "192.168.238.50:5000"
+      container_name     = "demo-angular-app"
+      container_port     = 80
+      host_port          = 4600
+      docker_network     = docker_network.monitoring.name
+    }
+  }
 
   depends_on = [module.jenkins]
 }
