@@ -170,6 +170,19 @@ module "app_pipelines" {
       deploy_trigger_phrase = "deploy it now"
     }
 
+    api-copy = {
+      application_name      = "earn-dotnet-api-copy"
+      git_repository_url    = "https://github.com/jafarulla15/DevOps-Demo-REST-Api.git"
+      git_branch            = "main"
+      git_credentials_id    = "github-jenkins-pat"
+      docker_registry       = "192.168.238.50:5000"
+      container_name        = "demo-dotnet-api-copy"
+      container_port        = 8070
+      host_port             = 5002
+      docker_network        = docker_network.monitoring.name
+      poll_schedule         = "H/10 * * * *"
+    }
+
     angular-app = {
       application_name      = "earn-angular-app"
       git_repository_url    = "https://github.com/jafarulla15/DevOps-Demo-Angular.git"
