@@ -1215,9 +1215,9 @@ Created modules/jenkins-scm-pipeline/ — a reusable, multi-pipeline Jenkins mod
 **outputs.tf, README.md** — job names/credential IDs output, full usage docs.  
 
 
-=====================================================================================================
+=========================================
 **JenkinsPipeline:**
-=====================================================================================================
+=========================================
 **Step 1 — GitHub**
 GitHub receives the code.
 
@@ -1235,8 +1235,11 @@ git clone https://github.com/your-user/my-dotnet-api.git
 The repository is downloaded onto the Jenkins workspace.
 
 For example:
+```
 /var/lib/jenkins/workspace/my-dotnet-api/
+```
 Then:
+```
 /var/lib/jenkins/workspace/my-dotnet-api/
 │
 ├── MyApi.csproj
@@ -1245,14 +1248,16 @@ Then:
 ├── Dockerfile
 ├── Jenkinsfile
 └── ...
+```
 **6. Jenkins builds the .NET application**
 
 The Jenkins host executes:
+```
 dotnet restore
 dotnet build
 dotnet test
 dotnet publish
-
+```
 So these commands are not executed by GitHub.
 They are executed by the Jenkins execution environment.
 
@@ -1260,6 +1265,7 @@ They are executed by the Jenkins execution environment.
 For example:
 docker build -t my-dotnet-api:1.0.0 .
 The Docker engine could be running on the same Ubuntu host:
+```
 Ubuntu Host
 │
 ├── Jenkins
@@ -1267,7 +1273,7 @@ Ubuntu Host
 └── Docker
       │
       └── my-dotnet-api:1.0.0
-
+```
 Then Jenkins could run:
 
 docker run -d \
@@ -1292,3 +1298,77 @@ A simple way to remember it:
 **Terraform:**
 "I will create and configure the infrastructure that Jenkins and the applications need."
 So for your current setup, GitHub holds your .NET API + Jenkinsfile, while Jenkins on your Ubuntu host actually executes the pipeline.
+
+--------------------------------------------------
+Security key to communicate from Jenkins to Github
+--------------------------------------------------
+
+
+**Manage Jenkins → Credentials**
+
+1. Check via the Jenkins UI
+a. Go to http://<Jenkins URL>
+b. Manage Jenkins → Credentials → click into the domain (usually (global) under System)
+c. Look for a credential with ID exactly github-jenkins-pat (the ID is what matters, not the display name)
+
+2. Check via the Jenkins REST API (scriptable)
+curl -s -u admin:YourStrongPassword123! \
+  "http://192.168.238.50:8080/credentials/store/system/domain/_/credential/github-jenkins-pat/api/json"
+Returns credential metadata (200) if it exists
+Returns a 404 page if it doesn't
+
+4. If it's missing, create it manually
+Manage Jenkins → Credentials → (global) → Add Credentials:
+Kind: Username with password
+Scope: Global
+Username: your GitHub username (jafarulla15)
+Password: your GitHub Personal Access Token (not your actual GitHub password)
+ID: github-jenkins-pat — must match exactly, since that's the literal string baked into main.tf's git_credentials_id
+Description: whatever you like
+Without this exact ID present, both pipelines' Checkout stage will fail immediately with a "credentials not found" error the first time they run.
+
+
+**Generate a GitHub PAT**
+
+a. GitHub → click your profile photo (top right) → Settings
+b. Left sidebar → scroll down → Developer settings
+c. Personal access tokens → Fine-grained tokens → Generate new token
+d. Fill in:
+          1. Token name: e.g. jenkins-earn-dotnet-api (or one covering both repos)
+          2. Expiration: pick a date (max ~1 year for fine-grained tokens) — you'll need to regenerate before it expires
+          3. Repository access: Only select repositories → choose DevOps-Demo-REST-Api and DevOps-Demo-Angular (least privilege — don't grant access to all your repos)
+          4. Permissions → Repository permissions → set Contents: Read-only (that's all git clone/checkout needs)
+          5. Click Generate token
+Copy it immediately — GitHub shows it only once (starts with github_pat_...). If you navigate away without copying, you'll have to generate a new one.
+That copied string is what goes in the Jenkins credential's Password field (with Username = jafarulla15, ID = github-jenkins-pat).
+
+----------------------------------------------------------------------------------------------------------------------
+**ADD New Pipeline (By only giving details)**
+At root folder > main.tf file - give a block like below (it will create a new pipeline) 
+
+```
+    dotnet-api = {
+      application_name      = "earn-dotnet-api"
+      git_repository_url    = "https://github.com/jafarulla15/DevOps-Demo-REST-Api.git"
+      git_branch            = "main"
+      git_credentials_id    = "github-jenkins-pat"
+      docker_registry       = "192.168.238.50:5000"
+      container_name        = "demo-dotnet-api"
+      container_port        = 8070
+      host_port             = 5001
+      docker_network        = docker_network.monitoring.name
+      poll_schedule         = "H/10 * * * *"
+      deploy_trigger_phrase = "deploy it now"
+    }
+ ```   
+After run terraform as below:
+ ```   
+1. cd /<root folder of terraform project>
+2. export TF_VAR_jenkins_password="YourStrongPassword123!"
+3. terraform apply -target=module.app_pipelines
+ ```
+------------------------------------------------------------------------------------------------
+END Of Jenkins
+------------------------------------------------------------------------------------------------
+
+
