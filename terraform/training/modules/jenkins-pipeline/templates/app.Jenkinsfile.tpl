@@ -63,7 +63,13 @@ pipeline {
             }
 %{ endif ~}
             steps {
+                script {
+                    env.OLD_IMAGE_ID = sh(script: 'docker images -q $IMAGE_NAME:latest', returnStdout: true).trim()
+                }
                 sh '''
+                    if [ -n "$OLD_IMAGE_ID" ]; then
+                        docker tag "$OLD_IMAGE_ID" $IMAGE_NAME:backup
+                    fi
                     docker build \
                       -t $IMAGE_NAME:$BUILD_NUMBER \
                       -t $IMAGE_NAME:latest .
@@ -101,6 +107,23 @@ pipeline {
                       -p $HOST_PORT:$CONTAINER_PORT \
 %{ endif ~}
                       $IMAGE_NAME:latest
+                '''
+            }
+        }
+
+        stage('Backup Old Image') {
+%{ if deploy_trigger_phrase != null ~}
+            when {
+                environment name: 'SHOULD_DEPLOY', value: 'true'
+            }
+%{ endif ~}
+            steps {
+                sh '''
+                    if [ -n "$OLD_IMAGE_ID" ]; then
+                        echo "Previous image kept as $IMAGE_NAME:backup ($OLD_IMAGE_ID)"
+                    else
+                        echo "No previous image - nothing to back up on this build"
+                    fi
                 '''
             }
         }

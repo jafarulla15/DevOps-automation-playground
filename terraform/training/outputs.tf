@@ -133,5 +133,10 @@ output "application_jenkins_jobs" {
   value       = module.app_pipelines.job_names
 }
 
+output "application_image_locations" {
+  description = "Docker image name/location each pipeline builds and pushes to (<registry>/<container_name>, tagged :latest and :BUILD_NUMBER at build time), keyed by pipeline name"
+  value       = module.app_pipelines.image_names
+}
+
 
 

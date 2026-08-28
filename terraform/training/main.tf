@@ -164,20 +164,6 @@ module "app_pipelines" {
       docker_registry       = "192.168.238.50:5000"
       container_name        = "demo-dotnet-api"
       container_port        = 8070
-      host_port             = 5000
-      docker_network        = docker_network.monitoring.name
-      poll_schedule         = "H/10 * * * *"
-      deploy_trigger_phrase = "deploy it now"
-    }
-
-    dotnet-api2 = {
-      application_name      = "earn-dotnet-api2"
-      git_repository_url    = "https://github.com/jafarulla15/DevOps-Demo-REST-Api.git"
-      git_branch            = "main"
-      git_credentials_id    = "github-jenkins-pat"
-      docker_registry       = "192.168.238.50:5000"
-      container_name        = "demo-dotnet-api2"
-      container_port        = 8070
       host_port             = 5001
       docker_network        = docker_network.monitoring.name
       poll_schedule         = "H/10 * * * *"
