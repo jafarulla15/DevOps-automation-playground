@@ -1305,7 +1305,7 @@ Security key to communicate from Jenkins to Github
 
 
 **Manage Jenkins → Credentials**
-
+```
 1. Check via the Jenkins UI
 a. Go to http://<Jenkins URL>
 b. Manage Jenkins → Credentials → click into the domain (usually (global) under System)
@@ -1326,10 +1326,10 @@ Password: your GitHub Personal Access Token (not your actual GitHub password)
 ID: github-jenkins-pat — must match exactly, since that's the literal string baked into main.tf's git_credentials_id
 Description: whatever you like
 Without this exact ID present, both pipelines' Checkout stage will fail immediately with a "credentials not found" error the first time they run.
-
+```
 
 **Generate a GitHub PAT**
-
+```
 a. GitHub → click your profile photo (top right) → Settings
 b. Left sidebar → scroll down → Developer settings
 c. Personal access tokens → Fine-grained tokens → Generate new token
@@ -1341,7 +1341,7 @@ d. Fill in:
           5. Click Generate token
 Copy it immediately — GitHub shows it only once (starts with github_pat_...). If you navigate away without copying, you'll have to generate a new one.
 That copied string is what goes in the Jenkins credential's Password field (with Username = jafarulla15, ID = github-jenkins-pat).
-
+```
 ----------------------------------------------------------------------------------------------------------------------
 **ADD New Pipeline (By only giving details)**
 At root folder > main.tf file - give a block like below (it will create a new pipeline) 
